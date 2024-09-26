@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 import sys
 import sqlite3
+import pytz
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -14,7 +16,9 @@ def init_db():
 
 @app.route('/')
 def index():
-    return "Главная страница моих лабораторных работ по курсу 'Разработка серверных приложений'. Студент Кирилл Данилов группы 1111б."
+    timezone = 'Asia/Yekaterinburg'
+    local_time = datetime.now(pytz.timezone(timezone))
+    return f"Главная страница моих лабораторных работ по курсу 'Разработка серверных приложений'.<br>Студент Кирилл Данилов группы 1111б.<br>Текущая локальная дата и время в {timezone}: {local_time}"
 
 @app.route('/info/server', methods=['GET'])
 def python_info():
