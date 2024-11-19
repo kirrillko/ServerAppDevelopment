@@ -5,7 +5,7 @@ import pytz
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
-# ОС от Шиленкова:
+# ОС от Шиленкова (лаба 2):
 # сделать счётчик активных токенов на сервере. можно в БД.
 # чтобы учесть, что сеансы могут быть на разных устройствах
 app = Flask(__name__)
