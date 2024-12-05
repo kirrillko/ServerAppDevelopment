@@ -4,6 +4,7 @@
 <h2>User Profile</h2>
 <p>Email: {{ user.email }}</p>
 <p>Created at: {{ user.created_at }}</p>
+<p>2fa status: {{user.is_2fa}}</p>
 
 <!-- Кнопка выхода -->
 <form action="/logout" method="POST">

@@ -58,10 +58,11 @@ def database_info():
 
 # DTO классы
 class UserDTO:
-    def __init__(self, user_id, email, created_at):
+    def __init__(self, user_id, email, created_at, is_2fa):
         self.id = user_id
         self.email = email
         self.created_at = created_at
+        self.is_2fa = is_2fa
 
 class TokenDTO:
     def __init__(self, access_token, refresh_token=None):
@@ -148,8 +149,15 @@ class AuthController:
         user = cursor.fetchone()
         conn.close()
 
+        conn2 = sqlite3.connect('roles_permissions.db')
+        cursor2 = conn2.cursor()
+        cursor2.execute('SELECT * FROM user WHERE id = ?', (user_id,))
+        user2 = cursor2.fetchone()
+        print(user2)
+        conn2.close()
+
         if user:
-            return UserDTO(user[0], user[1], user[3]), 200
+            return UserDTO(user[0], user[1], user[3], user2[6]), 200
         else:
             return MessageDTO('Пользователь не найден'), 404
 
@@ -213,7 +221,7 @@ def profile():
 def logout():
     token = request.cookies.get('access_token')
     if token:
-        # Удаляем токен из куки
+        # Удаляем токен из кук
         response = redirect(url_for('login'))
         response.delete_cookie('access_token')
         return response
